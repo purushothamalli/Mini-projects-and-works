@@ -1,0 +1,116 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data table test</title>
+    <link rel="stylesheet" href="data-table.css">
+    <script src="books.js"></script>
+</head>
+
+<body>
+    <div class="search-input-container">
+        <h1>Table data</h1>
+        <input type="text" id="search-bar" placeholder="Search">
+    </div>
+    <table id="data-table"></table>
+    <div class="buttons">
+        <button id="prev">Previous</button>
+        <div id="pagination-buttons"></div>
+        <button id="next">Next</button>
+    </div>
+    <script>
+        let start = 0;
+        let end = 10;
+        let dataTableHeader = document.createElement('thead');
+        let dataTableHeaderRow = document.createElement('tr');
+        Object.keys(books[0]).forEach(header => {
+            if (header === 'currency' || header === 'discountUnits') return;
+            let head = document.createElement('th');
+            head.innerText = header;
+            head.addEventListener("click", function (e) {
+                var head = e.target.innerText;
+                data = books.slice(start, end).sort((a, b) => {
+                    if (typeof a[head] === "number") {
+                        return a[head] - b[head];
+                    }
+                    return a[head].localeCompare(b[head]);
+                });
+                genUI(data);
+            });
+            dataTableHeaderRow.appendChild(head);
+        });
+        let paginationButtons = '';
+        for (let i = 0; i <= books.length / 10; i++) {
+            paginationButtons += `<button onClick="goToPage(${i})">${i + 1}</button>`;
+        }
+        document.getElementById('pagination-buttons').innerHTML = paginationButtons;
+        function goToPage(i) {
+            start = i * 10;
+            end = i * 10 + 10;
+            genUI(books.slice(start, end));
+        }
+        dataTableHeader.appendChild(dataTableHeaderRow);
+        document.getElementById('search-bar').addEventListener('input', (event) => {
+            searchBooksData(event.target.value);
+        });
+        function searchBooksData(searchInput) {
+            if (searchInput === "") {
+                genUI(books.slice(start, end));
+                return;
+            }
+            let filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchInput.toLowerCase()));
+            genUI(filteredBooks);
+        }
+        function genUI(data = books.slice(0, 10)) {
+            let dataTableBody = document.createElement('tbody');
+            let tableSummaryHTML = '';
+            tableSummaryHTML = "";
+            data.forEach(book => {
+                let date = new Date(book?.publishedDate?.$date);
+                tableSummaryHTML += `
+            <tr>
+            <td><div class="cell-content" "of">${book.title ? book.title : 'No content'}</div></td>
+            <td><div class="cell-content">${book.isbn ? book.isbn : 'No content'}</div></td>
+            <td><div class="cell-content">${book.pageCount ? book.pageCount : 'No content'}</div></td>
+            <td><div class="cell-content">${date && !isNaN(date) ? `${date.getFullYear()} /${date.getMonth() + 1}/${date.getDate()} ` : 'No content'}</div></td>
+            <td><div class="cell-content">${book.thumbnailUrl ? `<img src=${book.thumbnailUrl}>` : 'No content'}</div></td>
+            <td><div class="cell-content of">${book.shortDescription ? book.shortDescription : 'No content'}</div></td>
+            <td><div class="cell-content of">${book.longDescription ? book.longDescription : 'No content'}</div></td>
+            <td><div class="cell-content">${book.status ? book.status : 'No content'}</div></td>
+            <td><div class="cell-content">${book.authors ? book.authors : 'No content'}</div></td>
+            <td><div class="cell-content">${book.categories ? book.categories : 'No content'}</div></td>
+            <td><div class="cell-content">${book.price ? `$${book.price}` : 'No content'}</div></td>
+            <td><div class="cell-content">${book.discount ? `${book.discount}%` : 'No content'}</div></td>
+        </tr>`;
+            });
+            dataTableBody.innerHTML = tableSummaryHTML;
+            let table = document.getElementById('data-table');
+            table.innerHTML = ""
+            table.appendChild(dataTableHeader);
+            table.appendChild(dataTableBody);
+        }
+        genUI(books.slice(start, end));
+        document.getElementById('next').addEventListener('click', () => {
+            console.log("Next");
+            if (start += 10 < books.length) {
+                start += 10;
+            }
+            if (end += 10 < books.length) {
+                end += 10;
+            }
+            genUI(books.slice(start, end));
+        });
+        document.getElementById('prev').addEventListener('click', () => {
+            if (start -= 10) {
+                start -= 10;
+            }
+            if (end -= 10) {
+                end -= 10;
+            }
+            genUI(books.slice(start, end));
+        });
+    </script>
+</body>
+
+</html>

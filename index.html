@@ -4,11 +4,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mini projects Collection</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-
+    <h1>Welcome to my Mini Projects Collection</h1>
+    <p>This repository showcases my learning journey through mini projects and practical experiments, each focused on
+        building
+        specific skills and exploring new technologies.</p>
+    <div>
+        <h2>About this repository</h2>
+        <p>This repository contains a collection of mini projects and small experiments built while learning and
+            practicing
+            different development concepts. Each project focuses on implementing a specific idea or functionality in a
+            simple,
+            practical way.</p>
+        <h3>What's Included</h3>
+        <ul>
+            <li>Practice builds to apply new concepts</li>
+            <li>UI components and interactive elements</li>
+            <li>Algorithm and logic implementations</li>
+            <li>Feature-based experiments</li>
+            <li>Learning exercises with new tools or techniques</li>
+        </ul>
+        <h3>Purpose</h3>
+        <ul>
+            <li>Built while exploring and learning new technologies</li>
+            <li>Focused on small, well-defined functionality</li>
+            <li>Each project is self-contained and independent</li>
+        </ul>
+        <h3>Tech Stack</h3>
+        <p>Projects use a mix of technologies such as HTML, CSS, JavaScript, React, Node.js, APIs, and core programming
+            concepts,
+            depending on what is being explored.</p>
+    </div>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Project name</th>
+            <th>Description</th>
+            <th>Tech stack</th>
+            <th>Live demo</th>
+            <th>Source code</th>
+        </tr>
+        <tbody id="table-body"></tbody>
+    </table>
+    <script>
+        const projectsData = [
+            {
+                sno: 1,
+                projectName: 'Data table',
+                description: "Table with books data and implemented sorting,searching,pagination and attractive UI.",
+                techStack: ['HTML', 'CSS'],
+                liveDemo: './Data_table_test/data-table.html',
+                sourceCode: 'https://github.com/purushothamalli/Mini-projects-and-works/tree/main/Data_table_test'
+            }, {
+                sno: 2,
+                projectName: 'Todolist with localStorage',
+                description: "Todolist with add,delete todos and localStorage for persistent storage.",
+                techStack: ['HTML', 'CSS', 'JavaScript'],
+                liveDemo: './Data_table_test/data-table.html',
+                sourceCode: 'https://github.com/purushothamalli/Mini-projects-and-works/tree/main/Data_table_test'
+            }, {
+                sno: 3,
+                projectName: 'Counter with localStorage',
+                description: "Counter with increment,decrement,reset and localStorage of counter value for persistent storage.",
+                techStack: ['HTML', 'CSS', 'JavaScript'],
+                liveDemo: './Data_table_test/data-table.html',
+                sourceCode: 'https://github.com/purushothamalli/Mini-projects-and-works/tree/main/Data_table_test'
+            }
+        ];
+        let projectsTableSummary = '';
+        projectsData.forEach(project => {
+            console.log(project);
+            projectsTableSummary += `
+                <tr>
+                    <td>${project.sno}</td>
+                    <td>${project.projectName}</td>
+                    <td>${project.description}</td>
+                    <td>${project.techStack}</td>
+                    <td><a href="${project.liveDemo}" target="_blank">Live Demo</a></td>
+                    <td><a href="${project.sourceCode}" target="_blank">Source Code</a></td>
+                </tr>
+            `;
+        });
+        document.getElementById('table-body').innerHTML = projectsTableSummary;
+    </script>
 </body>
 
 </html>

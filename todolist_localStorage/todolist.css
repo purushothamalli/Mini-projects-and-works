@@ -1,0 +1,38 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+input {
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+}
+.add-todo {
+  padding: 10px 12px;
+  font-weight: bold;
+  background-color: rgb(7, 65, 139);
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+#todo-list li {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  align-items: center;
+  position: relative;
+  margin: 10px;
+}
+#todo-list li::before {
+  content: "->";
+  position: absolute;
+  left: -20px;
+  font-weight: bold;
+}
+#todo-list li button {
+  padding: 10px 12px;
+  font-weight: bold;
+  background-color: rgb(139, 33, 7);
+  color: white;
+  border: none;
+  border-radius: 6px;
+}

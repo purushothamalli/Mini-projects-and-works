@@ -1,0 +1,43 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter with local storage for persistent storage</title>
+    <link rel="stylesheet" href="counter.css">
+</head>
+
+<body>
+    <h1>Count : <span id="count">0</span></h1>
+    <button class="inc">Increment Counter</button>
+    <button class="dec">Decrement Counter</button>
+    <button class="reset">Reset Counter</button>
+    <script>
+        let count = JSON.parse(localStorage.getItem('count'));
+        function incrementCounter() {
+            count++;
+            genCounter();
+        }
+        function decrementCounter() {
+            if (count > 0) count--;
+            genCounter();
+        }
+        function resetCounter() {
+            count = 0;
+            genCounter();
+        }
+        function genCounter() {
+            saveToLocalStorage();
+            document.getElementById('count').innerText = count;
+        }
+        function saveToLocalStorage() {
+            localStorage.setItem('count', JSON.stringify(count));
+        }
+        if (count) genCounter();
+        document.querySelector('.inc').addEventListener('click', incrementCounter);
+        document.querySelector('.dec').addEventListener('click', decrementCounter);
+        document.querySelector('.reset').addEventListener('click', resetCounter);
+    </script>
+</body>
+
+</html>

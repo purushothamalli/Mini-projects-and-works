@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todolist with local storage for persistent storage</title>
+    <link rel="stylesheet" href="todolist.css">
+</head>
+
+<body>
+    <h1>Todolist</h1>
+    <input type="text" id="todo-input" placeholder="Enter todo">
+    <button class="add-todo" onClick="addTodo()">Add todo</button>
+    <ul id="todo-list"></ul>
+    <script>
+        let todoList = JSON.parse(localStorage.getItem('todos')) || [];
+        function addTodo() {
+            todoList.push(document.getElementById('todo-input').value);
+            localStorage.setItem('todos', JSON.stringify(todoList));
+            genTodoList();
+            document.getElementById('todo-input').value = '';
+        }
+        function genTodoList() {
+            let todoListContent = '';
+            todoList.forEach((todo, i) => todoListContent += `<li>${todo}<button onclick=deleteTodo(event)>Delete Todo</button></li>`);
+            document.getElementById('todo-list').innerHTML = todoListContent;
+        }
+        function deleteTodo(event) {
+            let todoToBeDeleted = event.target.parentElement.innerText.replace("Delete Todo", "").replace('\n', "");
+            todoList = todoList.reduce((todos, todo) => {
+                if (todoToBeDeleted !== todo) todos.push(todo);
+                return todos;
+            }, []);
+            localStorage.setItem('todos', JSON.stringify(todoList));
+            genTodoList();
+        }
+        if (todoList) genTodoList();
+    </script>
+</body>
+
+</html>

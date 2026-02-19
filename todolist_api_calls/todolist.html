@@ -1,0 +1,70 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todolist with api calls</title>
+    <link rel="stylesheet" href="todolist.css">
+</head>
+
+<body>
+    <h1>Todolist</h1>
+    <form id="todos-input">
+        <input type="text" name="title" id="title" placeholder="Enter todo title"><br>
+        <div class="status">
+            <input type="radio" name="status" value="completed" id="c"><label for="c">: Completed</label>
+            <input type="radio" name="status" value="not completed" id="nc" checked><label for="nc">: Not completed
+            </label>
+        </div>
+        <button>Add todo</button>
+    </form>
+    <ul id="todolist"></ul>
+    <script>
+        function genTodolist() {
+            fetch('http://localhost:3000/todos').then(res => res.json()).then(data => {
+                let todolistSummaryHTML = '';
+                data.forEach(todo => {
+                    let isDone = todo.status === 'completed';
+                    todolistSummaryHTML += `
+                    <li style="text-decoration:${isDone ? 'line-through' : 'none'}">
+                        ${todo.title}
+                        <button onclick="updateStatus(${todo.id},'${todo.status}')" id="upd">${isDone ? 'Undo' : 'Done'}</button>
+                        <button onclick="deleteTodo(${todo.id})" ${isDone ? '' : 'disabled'}>Delete</button>
+                    </li>`;
+                });
+                document.getElementById('todolist').innerHTML = todolistSummaryHTML;
+            });
+        }
+        function addTodo(event) {
+            event.preventDefault();
+            const { title, status } = Object.fromEntries(new FormData(event.target));
+            fetch("http://localhost:3000/todos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title,
+                    status
+                })
+            }).then(res => res.json()).then(data => genTodolist());
+        }
+        function deleteTodo(todoId) {
+            fetch(`http://localhost:3000/todos/${todoId}`, {
+                method: 'DELETE'
+            }).then(res => res.json()).then(data => genTodolist());
+        }
+        function updateStatus(id, status) {
+            let updatedStatus = status === 'completed' ? 'not completed' : 'completed';
+            fetch(`http://localhost:3000/todos/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: updatedStatus })
+            }).then(res => res.json()).then(data => genTodolist());
+        }
+        genTodolist();
+        document.getElementById('todos-input').addEventListener('submit', addTodo);
+    </script>
+</body>
+
+</html>

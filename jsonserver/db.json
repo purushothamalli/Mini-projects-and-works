@@ -1,0 +1,38 @@
+{
+    "todos": [
+        {
+            "title": "to be deleted",
+            "status": "not completed",
+            "id": 3
+        },
+        {
+            "title": "this is done",
+            "status": "completed",
+            "id": 4
+        },
+        {
+            "title": "Hi hello how are you",
+            "status": "completed",
+            "id": 5
+        }
+    ],
+    "todosSSS": [
+        {
+            "title": "Node.js, express.js and MongoDB basics and CRUD operations",
+            "status": "Completed",
+            "id": 1
+        },
+        {
+            "title": "REST api and building rest api",
+            "status": "pending",
+            "id": 2
+        },
+        {
+            "title": "Using MERN stack and build a full application",
+            "status": "pending",
+            "id": 3
+        }
+    ],
+    "blogs": [],
+    "profiles": {}
+}
